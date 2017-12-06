@@ -1,0 +1,16 @@
+{
+  "name": "txtwork",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "textlint": "^9.1.1",
+    "textlint-rule-prh": "^5.0.1",
+    "textlint-rule-sentence-length": "^1.1.3"
+  }
+}
