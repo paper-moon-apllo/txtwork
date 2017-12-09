@@ -14,7 +14,7 @@ var consoleout = require('./gulp_plugin/console_out'); // 先頭に./を記述
 // ドキュメント配下においてある前提
 const MYDOC = __dirname.replace(/\\Documents\\.+/, "/").replace(/\\/g, "/");
 const TXTS = [
-    MYDOC + '*/doc/**/txt/**/*.txt'
+    MYDOC + 'Google ドライブ/doc/**/txt/**/*.txt'
 ];
 let TargetTexts_Sync = TXTS;
 
@@ -22,11 +22,10 @@ let TargetTexts_Sync = TXTS;
 gulp.task('default', ['test']);
 
 //WATCH
-gulp.task('watch',
-function() {
+gulp.task('watch', function() {
     gulpwatch(TXTS, function(event){
         TargetTexts_Sync = event.path;
-        runSequence('dist');
+        runSequence('init', 'backup', 'test', 'dist');
     });
 });
 
@@ -41,17 +40,13 @@ gulp.task('init', function(){
     if(!TargetTexts_Sync) {
         TargetTexts_Sync= TXTS;
     }
-    console.log("Task Start with Dirs:" + TargetTexts_Sync);
+    return console.log("Task Start with Dirs:" + TargetTexts_Sync);
 });
 
-gulp.task('test', ['init'], function(){
-    gulp.src(TargetTexts_Sync)
-    .pipe(textlint())
-});
-
-gulp.task('backup', ['test'], function(){
+gulp.task('backup', function(){
     const time_str = new Date().getTime();
-    gulp.src(TargetTexts_Sync)
+
+    return gulp.src(TargetTexts_Sync)
     .pipe(rename({
         // バックアップ用ファイル名
         extname: '.'+ time_str +'.txt'
@@ -59,8 +54,19 @@ gulp.task('backup', ['test'], function(){
     .pipe(gulp.dest('./dist/bk'))
 });
 
-gulp.task('dist', ['backup'], function(){
-    gulp.src(TargetTexts_Sync)
+gulp.task('test', function(){
+    return gulp.src(TargetTexts_Sync)
+    .pipe(plumber({
+        errorHandler: function(err) {
+//            console.log(err.messageFormatted);
+            this.emit('end');
+        }
+    }))
+    .pipe(textlint())
+});
+
+gulp.task('dist', function(){
+    return gulp.src(TargetTexts_Sync)
     .pipe(textminify())
     .pipe(gulp.dest('./dist'));
 });
