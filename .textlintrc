@@ -1,7 +1,40 @@
 {
   "filters": {},
   "rules": {
-    "preset-japanese": true,
+    "ja-yahoo-kousei" : {
+      "appID": "dj00aiZpPXlKd3BpUFp1cjFHMiZzPWNvbnN1bWVyc2VjcmV0Jng9MDU-",
+      'ignores': {
+        '用字':['彼方']
+      },
+    },
+    "preset-japanese": {
+        // 一文で使える"、"の数
+        "max-ten": {
+            "max": 3
+        },
+        // 逆接の接続助詞「が」が、同一文中に複数回出現していないかどうか
+        "no-doubled-conjunctive-particle-ga": true,
+        // 同じ接続詞が連続して出現していないかどうか
+        "no-doubled-conjunction": true,
+        // 二重否定の検出
+        "no-double-negative-ja": true,
+        // 二重助詞の検出
+        // 連続して同じ助詞が出た場合のみを検出
+        "no-doubled-joshi": {
+            "min_interval": 1
+        },
+        // 一文の最大の長さ
+        "sentence-length": {
+            "max": 100
+        },
+        // ら抜き言葉を使用しない
+        "no-dropping-the-ra": true,
+        // 文の敬体(ですます調)、常体(である調)のチェック
+        "no-mix-dearu-desumasu": true,
+        // ホ゜ケット エンシ゛ン
+        // のような、Mac OS XでPDFやFinderからのコピペで発生する濁点のチェック
+        "no-nfd": true
+    },
     "prh": {
       "rulePaths": [
         "./prh.yml"
