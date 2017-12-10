@@ -25,8 +25,8 @@ module.exports = function() {
       // 改行をLFに
       contents = contents.replace(/\r\n/g, "\n");
 
-      // 改行を半分に
-      contents = contents.replace(/\n(.)/g, "$1");
+      // 改行空白を除去
+      contents = contents.replace(/\n[　]*([\n]*)/g, "$1");
 
       // 編集した内容を出力
       file.contents = new Buffer(contents);

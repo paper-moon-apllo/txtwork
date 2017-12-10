@@ -3,9 +3,13 @@ var gulp = require('gulp');
 var gulpwatch = require('gulp-watch');
 var plumber = require('gulp-plumber');
 var rename = require('gulp-rename');
-var textlint = require('gulp-textlint');
+var exec = require('gulp-exec');
 var runSequence = require('run-sequence');
+// GENERAL
 var rimraf = require('rimraf');
+var argv = require('yargs').argv;
+// TEXTLINT
+var textlint = require('gulp-textlint');
 // MY PLUGIN
 var textminify = require('./gulp_plugin/text_minify'); // 先頭に./を記述
 var consoleout = require('./gulp_plugin/console_out'); // 先頭に./を記述
@@ -25,7 +29,7 @@ gulp.task('default', ['test']);
 gulp.task('watch', function() {
     gulpwatch(TXTS, function(event){
         TargetTexts_Sync = event.path;
-        runSequence('init', 'backup', 'test', 'dist');
+        runSequence('backup', 'test');
     });
 });
 
@@ -36,25 +40,25 @@ gulp.task('clean', function (cb) {
   rimraf('./dist', cb);
 });
 
-gulp.task('init', function(){
-    if(!TargetTexts_Sync) {
-        TargetTexts_Sync= TXTS;
-    }
-    return console.log("Task Start with Dirs:" + TargetTexts_Sync);
-});
-
 gulp.task('backup', function(){
     const time_str = new Date().getTime();
 
     return gulp.src(TargetTexts_Sync)
-    .pipe(rename({
+    .pipe(rename(function(path){
         // バックアップ用ファイル名
-        extname: '.'+ time_str +'.txt'
+        path.extname = '.'+ time_str +'.txt';
     }))
     .pipe(gulp.dest('./dist/bk'))
 });
 
-gulp.task('test', function(){
+gulp.task('get_param', function(){
+    var src = argv.t;
+    if (src) {
+        TargetTexts_Sync = src;
+    }
+})
+
+gulp.task('test', ['get_param'], function(){
     return gulp.src(TargetTexts_Sync)
     .pipe(plumber({
         errorHandler: function(err) {
@@ -65,9 +69,21 @@ gulp.task('test', function(){
     .pipe(textlint())
 });
 
-gulp.task('dist', function(){
+gulp.task('test_dist', ['test'], function(){
     return gulp.src(TargetTexts_Sync)
-    .pipe(textminify())
-    .pipe(gulp.dest('./dist'));
+    .pipe(plumber({
+        errorHandler: function(err) {
+            this.emit('end');
+        }
+    }))
+    .pipe(textlint({
+        "configFile": ".textlintrc_dist"
+    }))
 });
 
+gulp.task('dist', ['test_dist'], function(){
+    return gulp.src(TargetTexts_Sync)
+    .pipe(textminify())
+    .pipe(gulp.dest('./dist'))
+    .pipe(exec('node node_modules//textlint//bin//textlint.js -c .textlintrc_format --fix "<%= file.path %>"'))
+});

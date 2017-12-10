@@ -1,0 +1,11 @@
+{
+  "rules": {
+    // ひらがなで書くべき指定
+    "ja-hiragana-keishikimeishi": true,
+    "ja-hiragana-fukushi": true,
+    // 日本語
+    "general-novel-style-ja": {
+      "max_arabic_numeral_digits": false,
+    }
+  }
+}

@@ -1,44 +1,82 @@
 {
-  "filters": {},
   "rules": {
-    "ja-yahoo-kousei" : {
-      "appID": "dj00aiZpPXlKd3BpUFp1cjFHMiZzPWNvbnN1bWVyc2VjcmV0Jng9MDU-",
-      'ignores': {
-        '用字':['彼方']
-      },
+    "no-todo" : true,
+    "no-mixed-zenkaku-and-hankaku-alphabet": {
+      "prefer": "全角"
     },
+    "ja-no-mixed-period": {
+          // 優先する句点文字
+          "periodMark": "。",
+          // 句点文字として許可する文字列の配列
+          "allowPeriodMarks": ["、"],
+          // 末尾に絵文字を置くことを許可するか
+          "allowEmojiAtEnd": false,
+          // 句点で終わって無い場合に`periodMark`を--fix時に追加するかどうか
+          "forceAppendPeriod": false
+    },
+    // プリセット
     "preset-japanese": {
-        // 一文で使える"、"の数
-        "max-ten": {
-            "max": 3
-        },
-        // 逆接の接続助詞「が」が、同一文中に複数回出現していないかどうか
-        "no-doubled-conjunctive-particle-ga": true,
-        // 同じ接続詞が連続して出現していないかどうか
-        "no-doubled-conjunction": true,
-        // 二重否定の検出
-        "no-double-negative-ja": true,
-        // 二重助詞の検出
-        // 連続して同じ助詞が出た場合のみを検出
-        "no-doubled-joshi": {
-            "min_interval": 1
-        },
-        // 一文の最大の長さ
-        "sentence-length": {
-            "max": 100
-        },
-        // ら抜き言葉を使用しない
-        "no-dropping-the-ra": true,
-        // 文の敬体(ですます調)、常体(である調)のチェック
-        "no-mix-dearu-desumasu": true,
-        // ホ゜ケット エンシ゛ン
-        // のような、Mac OS XでPDFやFinderからのコピペで発生する濁点のチェック
-        "no-nfd": true
+      // 一文で使える"、"の数
+      "max-ten": {
+          "max": 3
+      },
+      // 逆接の接続助詞「が」が、同一文中に複数回出現していないかどうか
+      "no-doubled-conjunctive-particle-ga": true,
+      // 同じ接続詞が連続して出現していないかどうか
+      "no-doubled-conjunction": true,
+      // 二重否定の検出
+      "no-double-negative-ja": true,
+      // 二重助詞の検出
+      // 連続して同じ助詞が出た場合のみを検出
+      "no-doubled-joshi": {
+          "min_interval": 1
+      },
+      // 一文の最大の長さ
+      "sentence-length": {
+          "max": 100
+      },
+      // ら抜き言葉を使用しない
+      "no-dropping-the-ra": {
+        "severity" : "warning"
+      },
+      // 文の敬体(ですます調)、常体(である調)のチェック
+      "no-mix-dearu-desumasu": {
+        "severity" : "warning"
+      },
+      // ホ゜ケット エンシ゛ン
+      // のような、Mac OS XでPDFやFinderからのコピペで発生する濁点のチェック
+      "no-nfd": true,
     },
     "prh": {
       "rulePaths": [
         "./prh.yml"
       ]
-    }
+    },
+
+    // ************************************************
+    // DIST
+    // ************************************************
+//    "ja-yahoo-kousei" : {
+//      "appID": "dj00aiZpPXlKd3BpUFp1cjFHMiZzPWNvbnN1bWVyc2VjcmV0Jng9MDU-"
+////      'ignores': {
+////        '用字':['彼方']
+////      },
+//    },
+
+    // ************************************************
+    // FORMAT
+    // ************************************************
+    // ひらがなで書くべき指定
+    "ja-hiragana-keishikimeishi": {
+      "severity" : "warning"
+    },
+    "ja-hiragana-fukushi": {
+      "severity" : "warning"
+    },
+    // 日本語
+    "general-novel-style-ja": {
+      "max_arabic_numeral_digits": 10,
+      "severity" : "warning"
+    },
   }
 }
