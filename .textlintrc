@@ -1,6 +1,9 @@
 {
   "rules": {
-    "no-todo" : true,
+    // MY RULES
+    "my-no-todo" : true,
+
+    // GENERAL RULES
     "no-mixed-zenkaku-and-hankaku-alphabet": {
       "prefer": "全角"
     },
