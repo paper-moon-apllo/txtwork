@@ -32,15 +32,14 @@ gulp.task('watch', function() {
         TargetTexts_Sync = event.path;
         runSequence('backup', 'test');
 
-        doTest(
-            doDist(
-                gulp.src(TargetTexts_Sync)
-                .pipe(gulpIgore.exclude(function(file){
-                    var contents = String(file.contents);
-                    return ! contents.match(/(REL:|ＲＥＬ：)/g);
-                }))
-            ), '.textlintrc_dist'
-        );
+        let strm = gulp.src(TargetTexts_Sync)
+            .pipe(gulpIgore.exclude(function(file){
+                var contents = String(file.contents);
+                return ! contents.match(/(REL:|ＲＥＬ：)/g);
+            }));
+        
+        strm = doTest(strm, '.textlintrc_dist');
+        strm = doDist(strm);
     });
 });
 
@@ -108,6 +107,9 @@ function doTest(strm, conf){
 }
 
 function doDist(strm){
+    // del old
+
+
     return strm
         .pipe(textminify())
         .pipe(gulp.dest('./dist'))
