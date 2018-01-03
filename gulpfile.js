@@ -113,5 +113,8 @@ function doDist(strm){
     return strm
         .pipe(textminify())
         .pipe(gulp.dest('./dist'))
-        .pipe(exec('node node_modules//textlint//bin//textlint.js -c .textlintrc_format --fix "<%= file.path %>"'));    
+        .pipe(exec(
+            'node node_modules//textlint//bin//textlint.js' +
+            ' -c .textlintrc_format --fix' +
+            ' "<%= file.path %>"'));
 }

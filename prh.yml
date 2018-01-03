@@ -2,6 +2,23 @@
 version: 1
 rules:
 
+############## RULES #################
+  - expected: キロ
+    patterns:
+      - ｋｍ
+      - キロメートル
+      - Ｋｍ
+      - ＫＭ
+      - ㌔
+
+  - expected: センチ
+    patterns:
+      - ｃｍ
+      - センチメートル
+      - Ｃｍ
+      - ㌢
+
+############## SAMPLE #################
   # format case-sensitive
   - expected: Cookie
   # the above is equal to following
@@ -26,17 +43,6 @@ rules:
 #       to:   JavaScprit
 # Error: JavaScript spec failed. "JAVASCRIPT", expected "JavaScprit", but got "JavaScript", /[JjＪｊ][AaＡａ][VvＶｖ][AaＡａ][SsＳｓ][CcＣｃ][RrＲｒ][IiＩｉ][PpＰｐ][TtＴｔ]/g
 
-# pattern => expected
-  - expected: default
-    pattern:  deflaut
-
-# Allow to write multiple `pattern`
-  - expected: hardware
-    patterns:
-      - hadware
-      - harrdware
-      - harddware
-
 # Allow to write `pattern` as RegExp
 # Can use $1...$9
 # Should wrap `/` and `/`
@@ -48,13 +54,6 @@ rules:
     specs:
       - from: ECMAScript2015
         to:   ECMAScript 2015
-
-  # ECMAScript
-  - expected: YALP
-    patterns:
-      - /YOLP/
-
-
 
   # wordBoundary option
   - expected: js

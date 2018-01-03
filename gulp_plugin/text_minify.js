@@ -22,6 +22,9 @@ module.exports = function() {
       // ファイルの内容をcontentsに読み込み
       var contents = String(file.contents);
 
+      // 余分な情報を除去
+      contents = contents.replace(/(REL:|ＲＥＬ：)[\r\n]+/, "");
+
       // 改行をLFに
       contents = contents.replace(/\r\n/g, "\n");
 
