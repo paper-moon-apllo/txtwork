@@ -1,3 +1,5 @@
+setlocal
+
 cd /d %~dp0
 cd ..
 
@@ -11,3 +13,5 @@ exit 0
 :FORMAT
 node node_modules\textlint\bin\textlint.js -c .textlintrc_format --fix %1
 pause
+
+endlocal
